@@ -1,4 +1,15 @@
 <div class="row">
-  <h1>Example App: Home</h1>
-  {{results}}
+  <h3>Reports</h3>
+  <hr/>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      {{#each results}}
+        <tr>
+          {{#each this}}
+          <td>{{this}}</td>
+          {{/each}}
+        </tr>
+      {{/each}}
+    </table>
+  </div>
 </div>

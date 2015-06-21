@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   var results = [];
   console.log(connectionString)
   pg.connect(connectionString, function(err, client, done) {
-    var query = client.query('SELECT * FROM users limit 10')
+    var query = client.query('SELECT * FROM users limit 50')
     query.on('row', function(row){
       results.push(row)
     });
