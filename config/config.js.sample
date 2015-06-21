@@ -1,0 +1,19 @@
+var path = require('path'),
+    rootPath = path.normalize(__dirname + '/..'),
+    env = process.env.NODE_ENV || 'development';
+
+var config = {
+  development: {
+    db: 'postgres://localhost/postgres-reporting2-development'
+  },
+
+  test: {
+    db: 'postgres://localhost/postgres-reporting2-test'
+  },
+
+  production: {
+    db: 'postgres://localhost/postgres-reporting2-production'
+  }
+};
+
+module.exports = config[env];
