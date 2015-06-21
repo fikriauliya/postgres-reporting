@@ -3,19 +3,26 @@ var router = express.Router();
 var pg = require('pg'),
   config = require('../config/config'),
   connectionString = config.db;
+var _ = require('underscore')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var results = [];
-  console.log(connectionString)
   pg.connect(connectionString, function(err, client, done) {
-    var query = client.query('SELECT * FROM users limit 50')
+    var query = client.query('SELECT * FROM users')
+    var columns = []
     query.on('row', function(row){
-      results.push(row)
+      results.push(_(row).toArray())
+      columns = Object.keys(row)
     });
     query.on('end', function() {
       client.end();
-      res.render('index', { title: 'Express', results: results });
+
+      res.render('index', { 
+        title: 'Express', 
+        columns: JSON.stringify(columns),
+        rows: JSON.stringify(results)
+      });
     });
   })
 });

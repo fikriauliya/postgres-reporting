@@ -1,15 +1,7 @@
 <div class="row">
   <h3>Reports</h3>
   <hr/>
-  <div class="table-responsive">
-    <table class="table table-striped">
-      {{#each results}}
-        <tr>
-          {{#each this}}
-          <td>{{this}}</td>
-          {{/each}}
-        </tr>
-      {{/each}}
-    </table>
-  </div>
+  <div id="react-app"></div>
+  <script id="rows" type="application/json">{{{rows}}}</script>
+  <script id="columns" type="application/json">{{{columns}}}</script>
 </div>
