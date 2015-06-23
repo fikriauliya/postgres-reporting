@@ -1,5 +1,3 @@
-
 var React = require('react');
-var i = 0;
-var r = "levi";
-console.log(r);
+var SqlInput = require('../../client/components/SqlInput.react.js')
+React.render(<SqlInput></SqlInput>, document.getElementById('react-app'));

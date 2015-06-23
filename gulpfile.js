@@ -15,10 +15,9 @@ var browserify = require('browserify'),
   es = require('event-stream');
 
 gulp.task('js', function(done) {
-  globby('./client/*.js', function(err, files) {
+  globby('./client/**/*.js', function(err, files) {
     if (err) {
       bundledStream.emit('error', err);
-      return;
     }
     var tasks = files.map(function(entry) {
       var b = browserify({
@@ -48,7 +47,7 @@ gulp.task('start', ['js'], function(done) {
 });
 
 gulp.task('watch', function(done){
-  gulp.watch('client/*js', ['js']);
+  gulp.watch('client/**/*.js', ['js']);
 });
 
 gulp.task('default', ['js', 'start', 'watch']);

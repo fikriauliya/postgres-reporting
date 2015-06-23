@@ -31,4 +31,8 @@ router.get('/reports/new', function(req, res, next) {
  res.render('reports/new') 
 });
 
+router.post('/reports/', function(req, res) {
+  console.log(req.body.sql)
+});
+
 module.exports = router;
