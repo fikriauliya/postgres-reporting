@@ -2,14 +2,8 @@ var React = require('react'),
   $ = require('jquery')
 
 module.exports = SqlInput = React.createClass({
-  getInitialState: function() {
-    return {
-      sql: ''
-    }
-  },
   handleClick: function(e) {
-    this.setState({sql: React.findDOMNode(this.refs.sql).value})
-    $.post('/reports/', {sql: this.state.sql})
+    $.post('/reports/', {sql: React.findDOMNode(this.refs.sql).value})
   },
   render: function() {
     return (

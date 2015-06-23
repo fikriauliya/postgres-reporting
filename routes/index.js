@@ -4,6 +4,7 @@ var pg = require('pg'),
   config = require('../config/config'),
   connectionString = config.db;
 var _ = require('underscore')
+var Report = require('../models/report');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -32,7 +33,25 @@ router.get('/reports/new', function(req, res, next) {
 });
 
 router.post('/reports/', function(req, res) {
-  console.log(req.body.sql)
+  var newReport = new Report({ title: 'report #1', sql: req.body.sql})
+  console.log(newReport);
+  newReport.save(function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Saved");
+    }
+  });
+});
+
+router.get('/reports/', function(req, res) {
+  Report.find(function(err, reports) {
+    console.log(reports);
+
+    res.render('reports/index', {
+      reports: JSON.stringify(reports)
+    });
+  });
 });
 
 module.exports = router;
