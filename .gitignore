@@ -30,4 +30,4 @@ bower_components
 
 config/config.js
 
-public/main.js
+public/js/client/

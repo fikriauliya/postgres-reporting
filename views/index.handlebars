@@ -1,7 +1,16 @@
 <div class="row">
-  <h3>Reports</h3>
-  <hr/>
-  <div id="react-app"></div>
+  <div class="col-md-12">
+    <h3>Reports</h3>
+    <a href="reports/new" class="btn btn-primary">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      New report
+    </a>
+    <hr/>
+  </div>
+  <div class="col-md-12">
+    <div id="react-app"></div>
+  </div>
   <script id="rows" type="application/json">{{{rows}}}</script>
   <script id="columns" type="application/json">{{{columns}}}</script>
+  <script src="../js/client/index.js"></script>
 </div>
