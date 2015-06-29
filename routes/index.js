@@ -34,12 +34,11 @@ router.get('/reports/new', function(req, res, next) {
 
 router.post('/reports/', function(req, res) {
   var newReport = new Report({ title: 'report #1', sql: req.body.sql})
-  console.log(newReport);
   newReport.save(function(err) {
     if (err) {
       console.log(err);
     } else {
-      console.log("Saved");
+      console.log(newReport);
     }
   });
 });

@@ -31,3 +31,5 @@ bower_components
 config/config.js
 
 public/js/client/
+
+dist/
