@@ -3,7 +3,7 @@ var React = require('react'),
 
 module.exports = SqlInput = React.createClass({
   handleClick: function(e) {
-    $.post('/reports/', {sql: React.findDOMNode(this.refs.sql).value})
+    this.props.onInputSubmit(React.findDOMNode(this.refs.sql).value);
   },
   render: function() {
     return (

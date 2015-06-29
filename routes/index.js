@@ -33,14 +33,39 @@ router.get('/reports/new', function(req, res, next) {
 });
 
 router.post('/reports/', function(req, res) {
-  var newReport = new Report({ title: 'report #1', sql: req.body.sql})
-  newReport.save(function(err) {
+  var sql = req.body.sql;
+  var results = [];
+  pg.connect(connectionString, function(err, client, done) {
+    var query = client.query(sql)
+    var columns = []
+    query.on('row', function(row){
+      results.push(_(row).toArray())
+      columns = Object.keys(row)
+    });
+    query.on('end', function() {
+      client.end();
+
+      var newReport = new Report({ title: 'report #1', sql: sql})
+      newReport.save(function(err) {
+        if (err) {
+          res.json ({
+            error: err
+          });
+        } else {
+          res.json ({
+            columns: JSON.stringify(columns),
+            rows: JSON.stringify(results)
+          });
+        }
+      });
+    });
+
     if (err) {
-      console.log(err);
-    } else {
-      console.log(newReport);
+      res.json( {
+        error: err
+      });
     }
-  });
+  })
 });
 
 router.get('/reports/', function(req, res) {

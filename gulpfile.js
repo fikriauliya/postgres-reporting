@@ -17,6 +17,8 @@ var browserify = require('browserify'),
   forever = require('forever-monitor'),
   gutil = require('gulp-util'),
   assign = require('lodash.assign'),
+  notifier = require("node-notifier"),
+  notify = require("gulp-notify"),
   es = require('event-stream');
 
 gulp.task('browserify', function(done) {
@@ -55,7 +57,15 @@ function watchifyBundle() {
   // set up the browserify instance on a task basis
   return b.bundle()
     // log errors if they happen
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .on('error', 
+      function() {
+        gutil.log.bind(gutil, 'Browserify Error');
+        notifier.notify({
+          'title': 'Watchify',
+          'message': 'Error'
+        });
+      }
+    )
     .pipe(source('bundle.js'))
     // optional, remove if you don't need to buffer file contents
     .pipe(buffer())
@@ -63,7 +73,8 @@ function watchifyBundle() {
     .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
        // Add transformation tasks to the pipeline here.
     .pipe(sourcemaps.write('./')) // writes .map file
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('./dist'))
+    .pipe(notify("Watchified"))
 }
 // ================================= end watchify ==============================================
 
@@ -100,6 +111,11 @@ gulp.task('start', function(done) {
     ext: 'html js handlebars',
     env: {'PORT': 3030},
     ignore: ['client/', 'bower_components/', 'node_modules/']
+  }).on('restart', function() {
+    notifier.notify({
+      'title': 'Nodemon',
+      'message': 'Server restarted'
+    });
   });
   done();
 });
