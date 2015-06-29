@@ -34,6 +34,8 @@ router.get('/reports/new', function(req, res, next) {
 
 router.post('/reports/', function(req, res) {
   var sql = req.body.sql;
+  var title = req.body.title;
+
   var results = [];
   pg.connect(connectionString, function(err, client, done) {
     var query = client.query(sql)
@@ -45,7 +47,7 @@ router.post('/reports/', function(req, res) {
     query.on('end', function() {
       client.end();
 
-      var newReport = new Report({ title: 'report #1', sql: sql})
+      var newReport = new Report({ title: title, sql: sql})
       newReport.save(function(err) {
         if (err) {
           res.json ({

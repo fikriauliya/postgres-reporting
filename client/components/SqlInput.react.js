@@ -3,14 +3,34 @@ var React = require('react'),
 
 module.exports = SqlInput = React.createClass({
   handleClick: function(e) {
-    this.props.onInputSubmit(React.findDOMNode(this.refs.sql).value);
+    e.preventDefault();
+    this.props.onInputSubmit({
+      title: React.findDOMNode(this.refs.title).value,
+      sql: React.findDOMNode(this.refs.sql).value
+    })
   },
   render: function() {
     return (
-      <div>
-        <textarea rows="8" cols="150" ref="sql"/>
-        <br></br>
-        <button onClick={this.handleClick} className="btn btn-primary btn-md">Create</button>
+      <div className="row">
+        <div className="col-md-12">
+          <form className="form-horizontal">
+            <div className="form-group">
+              <div className="col-md-6">
+                <input className="form-control" placeholder="Title" ref="title"/>
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="col-md-8">
+                <textarea className="form-control" placeholder="SQL Query" rows="8" cols="150" ref="sql"/>
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="col-md-12">
+                <button onClick={this.handleClick} className="btn btn-primary btn-md">Create</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

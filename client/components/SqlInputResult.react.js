@@ -8,9 +8,9 @@ module.exports = SqlInputResult = React.createClass({
       columns: []
     }
   },
-  handleInputSubmit: function(sql) {
+  handleInputSubmit: function(input) {
     var me = this;
-    $.post('/reports/', {sql: sql}, function(result) {
+    $.post('/reports/', {sql: input.sql, title: input.title}, function(result) {
       me.setState({rows: JSON.parse(result.rows), columns: JSON.parse(result.columns)});
     });
   },
@@ -18,7 +18,6 @@ module.exports = SqlInputResult = React.createClass({
     return (
       <div>
         <SqlInput onInputSubmit={this.handleInputSubmit}></SqlInput>
-        <hr/>
         <SqlResult rows={this.state.rows} columns={this.state.columns}></SqlResult>
       </div>
     );

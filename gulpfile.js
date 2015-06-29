@@ -57,15 +57,7 @@ function watchifyBundle() {
   // set up the browserify instance on a task basis
   return b.bundle()
     // log errors if they happen
-    .on('error', 
-      function() {
-        gutil.log.bind(gutil, 'Browserify Error');
-        notifier.notify({
-          'title': 'Watchify',
-          'message': 'Error'
-        });
-      }
-    )
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('bundle.js'))
     // optional, remove if you don't need to buffer file contents
     .pipe(buffer())
