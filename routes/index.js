@@ -91,13 +91,32 @@ router.get('/reports/:id', function(req, res) {
   });
 });
 
-router.get('/reports/', function(req, res) {
-  Report.find(function(err, reports) {
-    console.log(reports);
+router.delete('/reports/:id', function(req, res) {
+  console.log("Delete " + req.params.id);
+  Report.remove({_id: req.params.id}, function(err, removed) {
+    if (err) {
+      res.json({
+        "status": 400
+      })
+    } else {
+      res.json({
+        "status": 202
+      });
+    }
+  });
+});
 
-    res.render('reports/index', {
-      reports: JSON.stringify(reports)
-    });
+router.get('/reports(:format?)', function(req, res) {
+  Report.find(function(err, reports) {
+    if (req.params.format) {
+      res.json({
+        reports: JSON.stringify(reports)
+      })
+    } else {
+      res.render('reports/index', {
+        reports: JSON.stringify(reports)
+      });
+    }
   });
 });
 
