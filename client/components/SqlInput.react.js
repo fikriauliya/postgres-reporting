@@ -16,17 +16,17 @@ module.exports = SqlInput = React.createClass({
           <form className="form-horizontal">
             <div className="form-group">
               <div className="col-md-6">
-                <input className="form-control" placeholder="Title" ref="title"/>
+                <input className="form-control" placeholder="Title" ref="title" defaultValue={this.props.initialContent.title}/>
               </div>
             </div>
             <div className="form-group">
-              <div className="col-md-8">
-                <textarea className="form-control" placeholder="SQL Query" rows="8" cols="150" ref="sql"/>
+              <div className="col-md-6">
+                <textarea className="form-control" placeholder="SQL Query" rows="8" ref="sql" defaultValue={this.props.initialContent.sql}/>
               </div>
             </div>
             <div className="form-group">
               <div className="col-md-12">
-                <button onClick={this.handleClick} className="btn btn-primary btn-md">Create</button>
+                <button onClick={this.handleClick} className="btn btn-primary btn-md">Run</button>
               </div>
             </div>
           </form>

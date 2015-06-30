@@ -4,7 +4,7 @@ var React = require('react'),
 module.exports = SqlInputResult = React.createClass({
   getInitialState: function() {
     return {
-      rows: [[]],
+      rows: [],
       columns: []
     }
   },
@@ -15,10 +15,14 @@ module.exports = SqlInputResult = React.createClass({
     });
   },
   render: function() {
+    var sqlResult;
+    if (this.state.rows.length > 0) {
+      sqlResult = <div><hr/><SqlResult rows={this.state.rows} columns={this.state.columns}></SqlResult></div>
+    }
     return (
       <div>
-        <SqlInput onInputSubmit={this.handleInputSubmit}></SqlInput>
-        <SqlResult rows={this.state.rows} columns={this.state.columns}></SqlResult>
+        <SqlInput enableEdit={this.props.enableEdit} initialContent={this.props.initialContent} onInputSubmit={this.handleInputSubmit}></SqlInput>
+        {sqlResult}
       </div>
     );
   }

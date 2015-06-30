@@ -102,7 +102,7 @@ gulp.task('start', function(done) {
     verbose: 'true',
     ext: 'html js handlebars',
     env: {'PORT': 3030},
-    ignore: ['client/', 'bower_components/', 'node_modules/']
+    ignore: ['client/', 'bower_components/', 'node_modules/', 'dist/', '.git/']
   }).on('restart', function() {
     notifier.notify({
       'title': 'Nodemon',

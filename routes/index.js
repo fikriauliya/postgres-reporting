@@ -70,6 +70,17 @@ router.post('/reports/', function(req, res) {
   })
 });
 
+router.get('/reports/:id', function(req, res) {
+  console.log(req.params.id)
+  Report.find({_id: req.params.id}, function(err, reports) {
+    var report = reports[0];
+    console.log(report);
+    res.render('reports/show', {
+      initialContent: JSON.stringify(report)
+    })
+  });
+});
+
 router.get('/reports/', function(req, res) {
   Report.find(function(err, reports) {
     console.log(reports);
