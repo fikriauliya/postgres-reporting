@@ -20,9 +20,15 @@ module.exports = SqlInputResult = React.createClass({
       sqlResult = <div><hr/><SqlResult rows={this.state.rows} columns={this.state.columns}></SqlResult></div>
     }
     return (
-      <div>
-        <SqlInput enableEdit={this.props.enableEdit} sqlId={this.props.sqlId} initialContent={this.props.initialContent} onInputSubmit={this.handleInputSubmit}></SqlInput>
-        {sqlResult}
+      <div className="row">
+        <div className="col-md-6">
+          <SqlInput enableEdit={this.props.enableEdit} sqlId={this.props.sqlId} initialContent={this.props.initialContent} onInputSubmit={this.handleInputSubmit}></SqlInput>
+          {sqlResult}
+        </div>
+        <div className="col-md-6">
+          <h4>History</h4>
+          <SqlResultHistory sqlId={this.props.sqlId}/>
+        </div>
       </div>
     );
   }

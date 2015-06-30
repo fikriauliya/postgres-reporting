@@ -9,10 +9,15 @@ mongoose.connect(connectionString, function(error) {
 });
 
 var Schema = mongoose.Schema;
+var HistorySchema = new Schema({
+  executedAt: {type: Date, default: Date.now},
+  results: []
+});
 var ReportSchema = new Schema({
   title: { type: String },
   sql: { type: String },
-  created_at: { type: Date, default: Date.now }
+  created_at: { type: Date, default: Date.now },
+  histories: { type: [HistorySchema]}
 });
 
 module.exports = Report = mongoose.model('reports', ReportSchema);

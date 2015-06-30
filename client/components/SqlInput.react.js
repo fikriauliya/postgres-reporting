@@ -24,12 +24,12 @@ module.exports = SqlInput = React.createClass({
         <div className="col-md-12">
           <form className="form-horizontal">
             <div className="form-group">
-              <div className="col-md-6">
+              <div className="col-md-12">
                 <input className="form-control" placeholder="Title" ref="title" defaultValue={this.props.initialContent.title}/>
               </div>
             </div>
             <div className="form-group">
-              <div className="col-md-6">
+              <div className="col-md-12">
                 <textarea className="form-control" placeholder="SQL Query" rows="8" ref="sql" defaultValue={this.props.initialContent.sql}/>
               </div>
             </div>

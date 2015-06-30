@@ -48,14 +48,20 @@ router.post('/reports/', function(req, res) {
     query.on('end', function() {
       client.end();
 
+      var reportHistory = {
+        "executedAt": new Date(),
+        "results": results
+      };
+
       if (sqlId) {
-        console.log("Report already exists");
-        res.json ({
-          columns: JSON.stringify(columns),
-          rows: JSON.stringify(results)
+        Report.update({_id: sqlId}, { $push: {histories: reportHistory }}, function() {
+          res.json ({
+            columns: JSON.stringify(columns),
+            rows: JSON.stringify(results)
+          });
         });
       } else {
-        var newReport = new Report({ title: title, sql: sql})
+        var newReport = new Report({ title: title, sql: sql, histories: [reportHistory]})
         newReport.save(function(err) {
           if (err) {
             res.json ({
@@ -81,7 +87,7 @@ router.post('/reports/', function(req, res) {
 
 router.get('/reports/:id', function(req, res) {
   console.log(req.params.id)
-  Report.find({_id: req.params.id}, function(err, reports) {
+  Report.find({_id: req.params.id}, '_id title sql', function(err, reports) {
     var report = reports[0];
     console.log(report);
     res.render('reports/show', {
@@ -107,7 +113,8 @@ router.delete('/reports/:id', function(req, res) {
 });
 
 router.get('/reports(:format?)', function(req, res) {
-  Report.find(function(err, reports) {
+  Report.find({}, '_id title created_at', function(err, reports) {
+    console.log(reports)
     if (req.params.format) {
       res.json({
         reports: JSON.stringify(reports)
@@ -117,6 +124,14 @@ router.get('/reports(:format?)', function(req, res) {
         reports: JSON.stringify(reports)
       });
     }
+  });
+});
+
+router.get('/reports/:id/histories', function(req, res) {
+  Report.find({_id: req.params.id}, 'histories', function(err, histories) {
+    res.json({
+      data: JSON.stringify(histories[0])
+    });
   });
 });
 
