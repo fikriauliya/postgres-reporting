@@ -128,7 +128,8 @@ router.get('/reports(:format?)', function(req, res) {
 });
 
 router.get('/reports/:id/histories', function(req, res) {
-  Report.find({_id: req.params.id}, 'histories', function(err, histories) {
+  Report.find({_id: req.params.id}, 'histories.executedAt', function(err, histories) {
+    console.log(histories)
     res.json({
       data: JSON.stringify(histories[0])
     });
