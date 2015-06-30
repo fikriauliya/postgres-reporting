@@ -35,6 +35,7 @@ router.get('/reports/new', function(req, res, next) {
 router.post('/reports/', function(req, res) {
   var sql = req.body.sql;
   var title = req.body.title;
+  var sqlId = req.body.sqlId;
 
   var results = [];
   pg.connect(connectionString, function(err, client, done) {
@@ -47,19 +48,27 @@ router.post('/reports/', function(req, res) {
     query.on('end', function() {
       client.end();
 
-      var newReport = new Report({ title: title, sql: sql})
-      newReport.save(function(err) {
-        if (err) {
-          res.json ({
-            error: err
-          });
-        } else {
-          res.json ({
-            columns: JSON.stringify(columns),
-            rows: JSON.stringify(results)
-          });
-        }
-      });
+      if (sqlId) {
+        console.log("Report already exists");
+        res.json ({
+          columns: JSON.stringify(columns),
+          rows: JSON.stringify(results)
+        });
+      } else {
+        var newReport = new Report({ title: title, sql: sql})
+        newReport.save(function(err) {
+          if (err) {
+            res.json ({
+              error: err
+            });
+          } else {
+            res.json ({
+              columns: JSON.stringify(columns),
+              rows: JSON.stringify(results)
+            });
+          }
+        });
+      }
     });
 
     if (err) {
@@ -76,7 +85,8 @@ router.get('/reports/:id', function(req, res) {
     var report = reports[0];
     console.log(report);
     res.render('reports/show', {
-      initialContent: JSON.stringify(report)
+      initialContent: JSON.stringify(report),
+      sqlId: req.params.id
     })
   });
 });

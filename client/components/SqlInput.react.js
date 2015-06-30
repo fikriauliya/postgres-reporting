@@ -14,7 +14,8 @@ module.exports = SqlInput = React.createClass({
     e.preventDefault();
     this.props.onInputSubmit({
       title: React.findDOMNode(this.refs.title).value,
-      sql: React.findDOMNode(this.refs.sql).value
+      sql: React.findDOMNode(this.refs.sql).value,
+      sqlId: this.props.sqlId
     })
   },
   render: function() {

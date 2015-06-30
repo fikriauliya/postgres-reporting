@@ -33,6 +33,6 @@ reports_index = (function(){
     }
   ]
   React.render(
-    <Griddle showFilter={true} resultsPerPage={20} enableInfiniteScroll={true} bodyHeight={600} useFixedHeader={true} columns={["title", "sql", "created_at"]} columnMetadata={columnMetadata} results={reportsJson}/>,
+    <Griddle showFilter={true} resultsPerPage={20} useFixedHeader={true} columns={["title", "sql", "created_at"]} columnMetadata={columnMetadata} results={reportsJson}/>,
     document.getElementById('react-app'))
 })

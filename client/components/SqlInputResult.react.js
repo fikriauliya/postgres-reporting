@@ -10,7 +10,7 @@ module.exports = SqlInputResult = React.createClass({
   },
   handleInputSubmit: function(input) {
     var me = this;
-    $.post('/reports/', {sql: input.sql, title: input.title}, function(result) {
+    $.post('/reports/', {sql: input.sql, title: input.title, sqlId: input.sqlId}, function(result) {
       me.setState({rows: JSON.parse(result.rows), columns: JSON.parse(result.columns)});
     });
   },
@@ -21,7 +21,7 @@ module.exports = SqlInputResult = React.createClass({
     }
     return (
       <div>
-        <SqlInput enableEdit={this.props.enableEdit} initialContent={this.props.initialContent} onInputSubmit={this.handleInputSubmit}></SqlInput>
+        <SqlInput enableEdit={this.props.enableEdit} sqlId={this.props.sqlId} initialContent={this.props.initialContent} onInputSubmit={this.handleInputSubmit}></SqlInput>
         {sqlResult}
       </div>
     );
