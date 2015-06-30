@@ -2,6 +2,14 @@ var React = require('react'),
   $ = require('jquery')
 
 module.exports = SqlInput = React.createClass({
+  getDefaultProps: function() {
+    return {
+      initialContent: {
+        title: '',
+        sql: ''
+      }
+    }
+  },
   handleClick: function(e) {
     e.preventDefault();
     this.props.onInputSubmit({
