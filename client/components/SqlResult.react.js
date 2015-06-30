@@ -8,6 +8,9 @@ module.exports = SqlResult = React.createClass({
   rowGetter: function(rowIndex) {
       return this.props.rows[rowIndex];
   },
+  renderLink: function(cellData) {
+    return <a href="#">{cellData}</a>;
+  },
   render: function() {
     if (this.props.rows.length > 0) {
       return (

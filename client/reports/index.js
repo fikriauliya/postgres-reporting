@@ -1,30 +1,38 @@
 reports_index = (function(){
   var React = require('react');
-  var FixedDataTable = require('fixed-data-table');
-  var Table = FixedDataTable.Table;
-  var Column = FixedDataTable.Column;
-
-  var _ = require('underscore')
+  var Griddle = require('griddle-react');
+  var ReactIntl = require('react-intl');
+  var FormattedRelative = ReactIntl.FormattedRelative;
 
   var reportsJson = JSON.parse(document.getElementById('reports').innerHTML)
-  var columnsJson = ['Title', 'SQL', 'Created at'];
-
-  function rowGetter(rowIndex) {
-    var report = reportsJson[rowIndex];
-    return [report.title, report.sql, report.created_at];
-  }
-
+  var LinkComponent = React.createClass({
+    render: function(){
+      url ="/reports/" + this.props.rowData._id;
+      return <a href={url}>{this.props.data}</a>
+    }
+  });
+  var DateComponent = React.createClass({
+    render: function() {
+      return <FormattedRelative value={this.props.data}/>
+    }
+  });
+  var columnMetadata = [
+    {
+      "columnName": "title",
+      "displayName": "Title",
+      "customComponent": LinkComponent
+    },
+    {
+      "columnName": "sql",
+      "displayName": "SQL"
+    },
+    {
+      "columnName": "created_at",
+      "displayName": "Created At",
+      "customComponent": DateComponent
+    }
+  ]
   React.render(
-    <Table
-      rowHeight={40}
-      rowGetter={rowGetter}
-      rowsCount={reportsJson.length}
-      width={1200}
-      height={500}
-      headerHeight={50}>
-      {_.map(columnsJson, function(val, key) { 
-        return <Column key={key} label={val} width={200} dataKey={key}/> 
-      })}
-    </Table>,
+    <Griddle showFilter={true} resultsPerPage={20} enableInfiniteScroll={true} bodyHeight={600} useFixedHeader={true} columns={["title", "sql", "created_at"]} columnMetadata={columnMetadata} results={reportsJson}/>,
     document.getElementById('react-app'))
 })
