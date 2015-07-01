@@ -27,9 +27,6 @@ module.exports = SqlInputResult = React.createClass({
   },
   handleInputSubmit: function(input) {
     ReportResultActions.requestRefresh(input.sql, input.title, input.sqlId);
-    // $.post('/reports/', {sql: input.sql, title: input.title, sqlId: input.sqlId}, function(result) {
-    //   me.setState({rows: JSON.parse(result.rows), columns: JSON.parse(result.columns)});
-    // });
   },
   render: function() {
     var sqlResult;
@@ -39,11 +36,12 @@ module.exports = SqlInputResult = React.createClass({
     return (
       <div className="row">
         <div className="col-md-6">
+          <h3>Report</h3><hr/>
           <SqlInput enableEdit={this.props.enableEdit} sqlId={this.props.sqlId} initialContent={this.props.initialContent} onInputSubmit={this.handleInputSubmit}></SqlInput>
           {sqlResult}
         </div>
         <div className="col-md-6">
-          <h4>History</h4>
+          <h3>History</h3><hr/>
           <SqlResultHistory onHistoryClick={this.handleHistoryClick} sqlId={this.props.sqlId}/>
         </div>
       </div>

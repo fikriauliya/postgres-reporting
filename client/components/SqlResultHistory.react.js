@@ -35,7 +35,7 @@ module.exports = SqlResultHistory = React.createClass({
   },
   render: function() {
     return (
-      <Griddle resultsPerPage={10} useFixedHeader={true} columns={["executedAt"]} columnMetadata={columnMetadata} results={this.state.histories}/>
+      <Griddle resultsPerPage={7} useFixedHeader={true} columns={["executedAt"]} columnMetadata={columnMetadata} results={this.state.histories}/>
     );
   }
 })
