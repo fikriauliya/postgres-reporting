@@ -1,5 +1,8 @@
 var React = require('react'),
-  $ = require('jquery')
+  $ = require('jquery'),
+  ReportResultActions = require('../actions/ReportResultActions'),
+  ReportResultConstants = require('../constants/ReportResultConstants'),
+  ReportResultStore = require('../stores/ReportResultStore')
 
 module.exports = SqlInputResult = React.createClass({
   getInitialState: function() {
@@ -8,11 +11,25 @@ module.exports = SqlInputResult = React.createClass({
       columns: []
     }
   },
+  componentDidMount: function() {
+    ReportResultStore.addRefreshedListener(this._onResultRefreshed);
+  },
+  componentWillUnmount: function() {
+    ReportResultStore.removeRefreshedListener(this._onResultRefreshed);
+  },
+  _onResultRefreshed: function() {
+    console.log("_onResultRefreshed");
+    console.log(ReportResultStore.getAllRows());
+    this.setState({rows: ReportResultStore.getAllRows(), columns: ReportResultStore.getAllColumns()});
+  },
+  handleHistoryClick: function(historyId) {
+    console.log(historyId);
+  },
   handleInputSubmit: function(input) {
-    var me = this;
-    $.post('/reports/', {sql: input.sql, title: input.title, sqlId: input.sqlId}, function(result) {
-      me.setState({rows: JSON.parse(result.rows), columns: JSON.parse(result.columns)});
-    });
+    ReportResultActions.requestRefresh(input.sql, input.title, input.sqlId);
+    // $.post('/reports/', {sql: input.sql, title: input.title, sqlId: input.sqlId}, function(result) {
+    //   me.setState({rows: JSON.parse(result.rows), columns: JSON.parse(result.columns)});
+    // });
   },
   render: function() {
     var sqlResult;
@@ -27,7 +44,7 @@ module.exports = SqlInputResult = React.createClass({
         </div>
         <div className="col-md-6">
           <h4>History</h4>
-          <SqlResultHistory sqlId={this.props.sqlId}/>
+          <SqlResultHistory onHistoryClick={this.handleHistoryClick} sqlId={this.props.sqlId}/>
         </div>
       </div>
     );

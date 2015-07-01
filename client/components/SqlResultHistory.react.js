@@ -4,6 +4,22 @@ var ReactIntl = require('react-intl');
 var FormattedRelative = ReactIntl.FormattedRelative;
 var $ = require('jquery');
 
+var DateLinkComponent = React.createClass({
+  handleClick: function(historyId) {
+    console.log(historyId);
+    this.props.onHistoryClick(historyId);
+  },
+  render: function() {
+    return <a href="#" onClick={this.handleClick.bind(this, this.props.rowData._id)}><FormattedRelative value={this.props.data}/></a>
+  }
+});
+var columnMetadata = [
+  {
+    "columnName": "executedAt",
+    "displayName": "Run at",
+    "customComponent": DateLinkComponent
+  }
+]
 module.exports = SqlResultHistory = React.createClass({
   getInitialState: function() {
     return {
@@ -19,7 +35,7 @@ module.exports = SqlResultHistory = React.createClass({
   },
   render: function() {
     return (
-      <Griddle resultsPerPage={10} useFixedHeader={true} columns={["executedAt"]} results={this.state.histories}/>
+      <Griddle resultsPerPage={10} useFixedHeader={true} columns={["executedAt"]} columnMetadata={columnMetadata} results={this.state.histories}/>
     );
   }
 })
