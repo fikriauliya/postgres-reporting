@@ -10,12 +10,12 @@ var ReportResultActions = {
       columns:  columns,
     });
   },
-  requestRefresh: function(sql, title, sqlId) {
+  create: function(sql, title, sqlId) {
     var me = this;
     $.post('/reports/', {sql: sql, title: title, sqlId: sqlId}, function(result) {
       me.refresh(JSON.parse(result.rows), JSON.parse(result.columns));
     });
-  }
+  },
 };
 
 module.exports = ReportResultActions;

@@ -26,7 +26,7 @@ module.exports = SqlInputResult = React.createClass({
     console.log(historyId);
   },
   handleInputSubmit: function(input) {
-    ReportResultActions.requestRefresh(input.sql, input.title, input.sqlId);
+    ReportResultActions.create(input.sql, input.title, input.sqlId);
   },
   render: function() {
     var sqlResult;

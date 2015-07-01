@@ -5,6 +5,7 @@ var pg = require('pg'),
   connectionString = config.db;
 var _ = require('underscore')
 var Report = require('../models/report');
+var mongoose = require('mongoose');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -134,6 +135,19 @@ router.get('/reports/:id/histories', function(req, res) {
       data: JSON.stringify(histories[0])
     });
   });
+});
+
+router.get('/reports/:report_id/histories/:id', function(req, res) {
+  Report.aggregate([
+      { $match: {_id: mongoose.Types.ObjectId(req.params.report_id)}},
+      { $project: {histories: 1}},
+      { $unwind: "$histories"},
+      { $match: {"histories._id": mongoose.Types.ObjectId(req.params.id)}}
+    ]).exec(function(err, reports) {
+      res.json({
+        results: JSON.stringify(reports[0].histories)
+      });
+    });
 });
 
 module.exports = router;

@@ -3,11 +3,14 @@ var Griddle = require('griddle-react');
 var ReactIntl = require('react-intl');
 var FormattedRelative = ReactIntl.FormattedRelative;
 var $ = require('jquery');
+var ReportResultHistoryActions = require('../actions/ReportResultHistoryActions'),
+  ReportResultHistoryConstants = require('../constants/ReportResultHistoryConstants'),
+  ReportResultHistoryStore = require('../stores/ReportResultHistoryStore')
 
 var DateLinkComponent = React.createClass({
   handleClick: function(historyId) {
     console.log(historyId);
-    this.props.onHistoryClick(historyId);
+    ReportResultHistoryActions.refreshResult(historyId);
   },
   render: function() {
     return <a href="#" onClick={this.handleClick.bind(this, this.props.rowData._id)}><FormattedRelative value={this.props.data}/></a>
@@ -27,11 +30,16 @@ module.exports = SqlResultHistory = React.createClass({
     }
   },
   componentDidMount: function() {
-    var me = this;
-    $.get('/reports/' + this.props.sqlId + '/histories', function(res) {
-      console.log(JSON.parse(res.data))
-      me.setState({histories: JSON.parse(res.data).histories});
-    })
+    ReportResultHistoryStore.addRefreshedListener(this._onHistoryRefreshed);
+    ReportResultHistoryActions.showAll(this.props.sqlId);
+  },
+  componentWillUnmount: function() {
+    ReportResultHistoryStore.removeRefreshedListener(this._onHistoryRefreshed);
+  },
+  _onHistoryRefreshed: function() {
+    console.log("_onHistoryRefreshed");
+    console.log(ReportResultHistoryStore.getAllHistories());
+    this.setState({histories: ReportResultHistoryStore.getAllHistories()});
   },
   render: function() {
     return (
